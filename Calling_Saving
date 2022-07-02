@@ -1,0 +1,60 @@
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+Button ONE,TWO,THREE,FOUR,FIVE,SIX,SEVEN,EIGHT,NINE,ZERO,STAR,HASH,CLEAR,CALL,SAVE;
+EditText DISPLAY;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        DISPLAY=findViewById(R.id.display);
+        CLEAR=findViewById(R.id.clear);
+        SAVE=findViewById(R.id.save);
+        CALL=findViewById(R.id.call);
+
+        CLEAR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DISPLAY.setText("");
+            }
+        });
+        CALL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneNumber;
+                phoneNumber=DISPLAY.getText().toString();
+                Intent myIntent = new Intent(Intent.ACTION_DIAL);
+                myIntent.setData(Uri.parse("tel:"+phoneNumber));
+                startActivity(myIntent);
+            }
+        });
+
+        SAVE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String number;
+                number=DISPLAY.getText().toString();
+                Intent secondIntent = new Intent(Intent.ACTION_INSERT);
+                secondIntent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                secondIntent.putExtra(ContactsContract.Intents.Insert.PHONE,number);
+                startActivity(secondIntent);
+            }
+        });
+
+
+    }
+    public void inputNumber(View V){
+Button btn =(Button)V;
+String digit =btn.getText().toString();
+String phoneNumber = DISPLAY.getText().toString();
+DISPLAY.setText(phoneNumber+digit);
+    }
+}
