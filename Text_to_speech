@@ -1,0 +1,37 @@
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
+EditText INPUT;
+Button CONVERT;
+TextToSpeech ts;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        INPUT=findViewById(R.id.input);
+        CONVERT=findViewById(R.id.convert);
+        ts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i!=TextToSpeech.ERROR){
+                    ts.setLanguage(Locale.UK);
+                }
+            }
+        });
+CONVERT.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        String text=INPUT.getText().toString();
+        ts.speak(text,TextToSpeech.QUEUE_FLUSH,null);
+    }
+});
+    }
+}
