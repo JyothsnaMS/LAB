@@ -1,0 +1,50 @@
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    Button BtnStart, BtnStop;
+    Button Breset;
+    TextView textCounter;
+    Handler myHandler = new Handler();
+    int i=0;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        BtnStart = findViewById(R.id.start);
+        BtnStop = findViewById(R.id.stop);
+        Breset = findViewById(R.id.reset);
+        textCounter = findViewById(R.id.counter);
+        BtnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myHandler.postDelayed(updateTimer,0);
+            }
+        });
+        BtnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myHandler.removeCallbacks(updateTimer);
+            }
+        });
+        Breset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                i=0;
+            }
+        });
+    }
+    private final Runnable updateTimer=new Runnable() {
+        @Override
+        public void run() {
+            textCounter.setText(""+i);
+            myHandler.postDelayed(this, 1000);
+            i++;
+        }
+    };
+}
